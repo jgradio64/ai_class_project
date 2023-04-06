@@ -1,8 +1,6 @@
 from PIL import Image
 from statistics import median
 import matplotlib.pyplot as plt
-
-import numpy as np
 import glob, os
 
 widths = []
@@ -43,8 +41,6 @@ def calculate_statistics():
 	max_height = max(heights)
 	min_height = min(heights)
 	median_height = median(heights)
-
-
 
 def show_statistics():
 	print("minimum width | height \n" + str(min_width) + "\t" + str(min_height))
