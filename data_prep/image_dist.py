@@ -7,6 +7,12 @@ import glob, os
 
 widths = []
 heights = []
+max_height = None
+min_height = None
+median_height = None
+max_width = None
+min_width = None
+median_width = None
 
 # image folder is located up one directory
 os.chdir("..")
@@ -26,8 +32,9 @@ def get_image_info(path):
 				widths.append(width)
 				heights.append(height)
 
-def print_statistics():
+def calculate_statistics():
 	# #Max, min, and mean of the widths of the images
+	global max_width, min_width, median_width, max_height, min_height, median_height
 	max_width = max(widths)
 	min_width = min(widths)
 	median_width = median(widths)
@@ -37,6 +44,9 @@ def print_statistics():
 	min_height = min(heights)
 	median_height = median(heights)
 
+
+
+def show_statistics():
 	print("minimum width | height \n" + str(min_width) + "\t" + str(min_height))
 	print("Maximum width | height \n" + str(max_width) + "\t" + str(max_height))
 	print("Median width | height \n" + str(median_width) + "\t" + str(median_height))
@@ -52,5 +62,6 @@ def show_histogram():
 	plt.show()
 
 get_image_info(path)
-print_statistics()
+calculate_statistics()
+show_statistics()
 show_histogram()
