@@ -8,7 +8,11 @@ import numpy as np
 from glob import glob
 import matplotlib.pyplot as plt
 import os
+import tensorflow as tf
 
+gpus = tf.config.experimental.list_physical_devices('GPU')
+print(gpus)
+tf.config.experimental.set_memory_growth(gpus[0], True)
 
 # Get image size from the images themselves
 # Go to fmt_data folder, and pick an image.
@@ -83,7 +87,7 @@ test_set = train_datagen.flow_from_directory(
 
 # Fit the model.
 
-history = model.fit_generator(
+history = model.fit(
     training_set,
     validation_data = test_set,
     epochs = 50,
