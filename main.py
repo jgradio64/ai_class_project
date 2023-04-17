@@ -7,29 +7,29 @@ from tensorflow.keras.models import Sequential
 import numpy as np
 from glob import glob
 import matplotlib.pyplot as plt
-import os
 import tensorflow as tf
 
-gpus = tf.config.experimental.list_physical_devices('GPU')
-print(gpus)
-tf.config.experimental.set_memory_growth(gpus[0], True)
+print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
+
+# gpus = tf.config.experimental.list_physical_devices('GPU')
+# print(gpus)
+# tf.config.experimental.set_memory_growth(gpus[0], True)
 
 # Get image size from the images themselves
 # Go to fmt_data folder, and pick an image.
 
 IMAGE_SIZE = [640, 426]
 
-# Get the base directory
-root_dir = os.getcwd()
-
 # Relative path to training and testing folders.
-train_Path = root_dir + "/formatted_data/train"
-test_Path = root_dir + "/formatted_data/test"
+train_Path = "/kaggle/input/formatted-data/formatted_data/train"
+test_Path = "/kaggle/input/formatted-data/formatted_data/test"
+
 
 resnet = ResNet50(
     input_shape = IMAGE_SIZE + [3], # Making the image into 3 Channel, so concating 3.
     weights = 'imagenet', # Default weights.
-    include_top = False   # 
+    include_top = False,   # 
+    classes = 5
 )
 
 # resnet.summary()
@@ -45,11 +45,11 @@ vehicle_label = ['car', 'minivan', 'suv', 'truck', 'van']
 
 x = Flatten() (resnet.output)
 
-prediction = Dense(len(folders), activation = 'softmax')(x)
+prediction = Dense(5, activation = 'softmax')(x)
 
 # Create a model Object
 model = Model(inputs = resnet.input, outputs = prediction)
-# model.summary()
+# print(model.summary())
 
 model.compile (
     loss = 'categorical_crossentropy',
@@ -86,7 +86,6 @@ test_set = train_datagen.flow_from_directory(
 )
 
 # Fit the model.
-
 history = model.fit(
     training_set,
     validation_data = test_set,
