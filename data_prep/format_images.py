@@ -70,9 +70,9 @@ def show_histogram():
 	plt.show()
 
 
-def resize_images(wd, ht):
+def resize_images(wd, ht, folder_name):
 	print("initialize folder for formatted data")
-	path = os.path.join(root_dir, "formatted_data")
+	path = os.path.join(root_dir, folder_name)
 	for root, dirs, files in os.walk(path):
 		for file in files:
 			delete_img = False
@@ -91,9 +91,9 @@ def resize_images(wd, ht):
 				os.remove(os.path.join(root, file))
 
 
-def copy_images():
+def copy_images(folder_name):
 	source_dir = os.path.join(root_dir, "data")
-	destination_dir = os.path.join(root_dir, "formatted_data")
+	destination_dir = os.path.join(root_dir, folder_name)
 	# Check if the directory already exists. Cannot copy to a location that already exists
 	if(os.path.isdir(destination_dir)):
 		# Delete the folder
@@ -106,5 +106,5 @@ get_image_info(path)
 calculate_statistics()
 show_statistics()
 show_histogram()
-copy_images()
-resize_images(int(median_width), int(median_height))
+copy_images("median_data")
+resize_images(int(median_width), int(median_height), "median_data")
